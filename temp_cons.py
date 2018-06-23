@@ -1,7 +1,7 @@
 import json
 
 n = 28
-m = 28
+m = 26
 
 data = [["blank" for i in range(m)] for j in range(n)]
 data[1][1] = "wall-corner-ul"
@@ -74,52 +74,152 @@ for i in range(17 , n-1):
     data[i][m-1] = "wall-straight-vert"
 
 
-data[13][17] = "wall-straight-vert"
-data[13][11] = "wall-straight-vert"
-data[11][17] = "wall-end-t"
-data[11][11] = "wall-end-t"
-data[15][11] = "wall-corner-ll"
-data[14][11] = "wall-straight-vert"
-data[12][11] = "wall-straight-vert"
-data[15][17] = "wall-corner-lr"
-data[14][17] = "wall-straight-vert"
-data[12][17] = "wall-straight-vert"
+data[13][16] = "wall-straight-vert"
+data[13][10] = "wall-straight-vert"
+data[11][16] = "wall-end-t"
+data[11][10] = "wall-end-t"
+data[15][10] = "wall-corner-ll"
+data[14][10] = "wall-straight-vert"
+data[12][10] = "wall-straight-vert"
+data[15][16] = "wall-corner-lr"
+data[14][16] = "wall-straight-vert"
+data[12][16] = "wall-straight-vert"
 
-for i in range(12 , 17):
+for i in range(11 , 16):
     data[11][i] = "ghost-door"
     data[15][i] = "wall-straight-horiz"
 
-data[17][11] = "wall-end-l"
-data[17][17] = "wall-end-r"
-for i in range(12 , 17):
+data[17][10] = "wall-end-l"
+data[17][16] = "wall-end-r"
+for i in range(11 , 16):
     data[17][i] = "wall-straight-horiz"
-data[17][14] = "wall-t-top"
-data[18][14] = "wall-straight-vert"
-data[19][14] = "wall-straight-vert"
-data[20][14] = "wall-end-b"
+data[17][13] = "wall-t-top"
+data[18][13] = "wall-straight-vert"
+data[19][13] = "wall-straight-vert"
+data[20][13] = "wall-end-b"
 
-data[22][11] = "wall-end-l"
-data[22][17] = "wall-end-r"
-for i in range(12 , 17):
+data[22][10] = "wall-end-l"
+data[22][16] = "wall-end-r"
+for i in range(11 , 16):
     data[22][i] = "wall-straight-horiz"
-data[22][14] = "wall-t-top"
-data[23][14] = "wall-straight-vert"
-data[24][14] = "wall-straight-vert"
-data[25][14] = "wall-end-b"
+data[22][13] = "wall-t-top"
+data[23][13] = "wall-straight-vert"
+data[24][13] = "wall-straight-vert"
+data[25][13] = "wall-end-b"
 
 
-data[6][11] = "wall-end-l"
-data[6][17] = "wall-end-r"
-for i in range(12 , 17):
+data[6][10] = "wall-end-l"
+data[6][16] = "wall-end-r"
+for i in range(11 , 16):
     data[6][i] = "wall-straight-horiz"
-data[6][14] = "wall-t-top"
-data[7][14] = "wall-straight-vert"
-data[8][14] = "wall-straight-vert"
-data[9][14] = "wall-end-b"
+data[6][13] = "wall-t-top"
+data[7][13] = "wall-straight-vert"
+data[8][13] = "wall-straight-vert"
+data[9][13] = "wall-end-b"
 
-data[4][14] = "wall-end-b"
-data[3][14] = "wall-straight-vert"
-data[2][14] = "wall-straight-vert"
+data[4][13] = "wall-end-b"
+data[3][13] = "wall-straight-vert"
+data[2][13] = "wall-straight-vert"
+
+# T right tilted
+data[8][11] = "wall-corner-ur"
+data[8][10] = "wall-straight-horiz"
+data[8][9] = "wall-straight-horiz"
+data[8][8] = "wall-t-left"
+data[9][8] = "wall-t-left"
+data[10][8] = "wall-straight-vert"
+data[11][8] = "wall-straight-vert"
+data[12][8] = "wall-end-b"
+data[9][11] = "wall-corner-lr"
+data[9][10] = "wall-straight-horiz"
+data[9][9] = "wall-straight-horiz"
+data[7][8] = "wall-straight-vert"
+data[6][8] = "wall-end-t"
+
+#T left tilted
+data[8][15] = "wall-corner-ul"
+data[8][16] = "wall-straight-horiz"
+data[8][17] = "wall-straight-horiz"
+data[8][18] = "wall-t-right"
+data[9][18] = "wall-t-right"
+data[10][18] = "wall-straight-vert"
+data[11][18] = "wall-straight-vert"
+data[12][18] = "wall-end-b"
+data[9][15] = "wall-corner-ll"
+data[9][16] = "wall-straight-horiz"
+data[9][17] = "wall-straight-horiz"
+data[7][18] = "wall-straight-vert"
+data[6][18] = "wall-end-t"
+
+
+data[4][11] = "wall-corner-lr"
+data[3][11] = "wall-corner-ur"
+data[4][10] = "wall-straight-horiz"
+data[3][10] = "wall-straight-horiz"
+data[4][9] = "wall-straight-horiz"
+data[3][9] = "wall-straight-horiz"
+data[4][8] = "wall-corner-ll"
+data[3][8] = "wall-corner-ul"
+
+
+data[4][15] = "wall-corner-ll"
+data[3][15] = "wall-corner-ul"
+data[4][16] = "wall-straight-horiz"
+data[3][16] = "wall-straight-horiz"
+data[4][17] = "wall-straight-horiz"
+data[3][17] = "wall-straight-horiz"
+data[4][18] = "wall-corner-lr"
+data[3][18] = "wall-corner-ur"
+
+# C and O left 
+data[3][3] = "wall-end-l"
+data[3][4] = "wall-straight-horiz"
+data[3][5] = "wall-straight-horiz"
+data[3][6] = "wall-corner-ur"
+data[4][6] = "wall-straight-vert"
+data[5][6] = "wall-straight-vert"
+data[6][6] = "wall-straight-vert"
+data[7][6] = "wall-straight-vert"
+data[8][6] = "wall-corner-lr"
+data[8][3] = "wall-end-l"
+data[8][4] = "wall-straight-horiz"
+data[8][5] = "wall-straight-horiz"
+
+data[5][3] = "wall-corner-ul"
+data[5][4] = "wall-corner-ur"
+data[6][3] = "wall-corner-ll"
+data[6][4] = "wall-corner-lr"
+
+# C and O right
+data[3][m-3] = "wall-end-r"
+data[3][m-4] = "wall-straight-horiz"
+data[3][m-5] = "wall-straight-horiz"
+data[3][m-6] = "wall-corner-ul"
+data[4][m-6] = "wall-straight-vert"
+data[5][m-6] = "wall-straight-vert"
+data[6][m-6] = "wall-straight-vert"
+data[7][m-6] = "wall-straight-vert"
+data[8][m-6] = "wall-corner-ll"
+data[8][m-3] = "wall-end-r"
+data[8][m-4] = "wall-straight-horiz"
+data[8][m-5] = "wall-straight-horiz"
+
+data[5][m-3] = "wall-corner-ur"
+data[5][m-4] = "wall-corner-ul"
+data[6][m-3] = "wall-corner-lr"
+data[6][m-4] = "wall-corner-ll"
+
+
+
+data[14][8] = "wall-end-t"
+data[15][8] = "wall-straight-vert"
+data[16][8] = "wall-straight-vert"
+data[17][8] = "wall-end-b"
+
+data[14][18] = "wall-end-t"
+data[15][18] = "wall-straight-vert"
+data[16][18] = "wall-straight-vert"
+data[17][18] = "wall-end-b"
 
 with open(".\\res\\levels\\1.json" , "w") as output_file:
     json.dump(data , output_file)

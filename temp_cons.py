@@ -221,5 +221,110 @@ data[15][18] = "wall-straight-vert"
 data[16][18] = "wall-straight-vert"
 data[17][18] = "wall-end-b"
 
+
+
+data[19][8] = "wall-corner-ul"
+data[19][9] = "wall-straight-horiz"
+data[19][10] = "wall-straight-horiz"
+data[19][11] = "wall-corner-ur"
+data[20][8] = "wall-corner-ll"
+data[20][9] = "wall-straight-horiz"
+data[20][10] = "wall-straight-horiz"
+data[20][11] = "wall-corner-lr"
+
+
+
+data[19][15] = "wall-corner-ul"
+data[19][16] = "wall-straight-horiz"
+data[19][17] = "wall-straight-horiz"
+data[19][18] = "wall-corner-ur"
+data[20][15] = "wall-corner-ll"
+data[20][16] = "wall-straight-horiz"
+data[20][17] = "wall-straight-horiz"
+data[20][18] = "wall-corner-lr"
+
+
+data[22][8] = "wall-end-t"
+data[23][8] = "wall-straight-vert"
+data[24][8] = "wall-straight-vert"
+data[25][8] = "wall-end-b"
+
+
+data[22][18] = "wall-end-t"
+data[23][18] = "wall-straight-vert"
+data[24][18] = "wall-straight-vert"
+data[25][18] = "wall-end-b"
+
+
+data[24][10] = "wall-corner-ul"
+data[25][10] = "wall-corner-ll"
+data[24][11] = "wall-corner-ur"
+data[25][11] = "wall-corner-lr"
+
+
+data[24][15] = "wall-corner-ul"
+data[25][15] = "wall-corner-ll"
+data[24][16] = "wall-corner-ur"
+data[25][16] = "wall-corner-lr"
+
+
+data[18][3] = "wall-end-t"
+data[19][3] = "wall-straight-vert"
+data[20][3] = "wall-straight-vert"
+data[21][3] = "wall-straight-vert"
+data[22][3] = "wall-straight-vert"
+data[23][3] = "wall-straight-vert"
+data[24][3] = "wall-straight-vert"
+data[25][3] = "wall-end-b" 
+
+
+data[18][m-3] = "wall-end-t"
+data[19][m-3] = "wall-straight-vert"
+data[20][m-3] = "wall-straight-vert"
+data[21][m-3] = "wall-straight-vert"
+data[22][m-3] = "wall-straight-vert"
+data[23][m-3] = "wall-straight-vert"
+data[24][m-3] = "wall-straight-vert"
+data[25][m-3] = "wall-end-b" 
+
+
+data[18][5] = "wall-corner-ul"
+data[18][6] = "wall-corner-ur"
+data[19][5] = "wall-straight-vert"
+data[20][5] = "wall-straight-vert"
+data[21][5] = "wall-straight-vert"
+data[22][5] = "wall-straight-vert"
+data[23][5] = "wall-straight-vert"
+data[24][5] = "wall-straight-vert"
+data[19][6] = "wall-straight-vert"
+data[20][6] = "wall-straight-vert"
+data[21][6] = "wall-straight-vert"
+data[22][6] = "wall-straight-vert"
+data[23][6] = "wall-straight-vert"
+data[24][6] = "wall-straight-vert"
+data[25][5] = "wall-corner-ll"
+data[25][6] = "wall-corner-lr"
+
+
+
+
+data[18][m-5] = "wall-corner-ur"
+data[18][m-6] = "wall-corner-ul"
+data[19][m-5] = "wall-straight-vert"
+data[20][m-5] = "wall-straight-vert"
+data[21][m-5] = "wall-straight-vert"
+data[22][m-5] = "wall-straight-vert"
+data[23][m-5] = "wall-straight-vert"
+data[24][m-5] = "wall-straight-vert"
+data[19][m-6] = "wall-straight-vert"
+data[20][m-6] = "wall-straight-vert"
+data[21][m-6] = "wall-straight-vert"
+data[22][m-6] = "wall-straight-vert"
+data[23][m-6] = "wall-straight-vert"
+data[24][m-6] = "wall-straight-vert"
+data[25][m-5] = "wall-corner-lr"
+data[25][m-6] = "wall-corner-ll"
+
+
 with open(".\\res\\levels\\1.json" , "w") as output_file:
     json.dump(data , output_file)

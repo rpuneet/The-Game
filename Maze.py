@@ -34,13 +34,25 @@ class Maze():
         self.x_length = len(self.matrix[0]) # Number of columns. 
         self.y_length = len(self.matrix)    # Number of rows.
 
-    def update_surface(self , window_surface):
+        self.images , self.positions = self.get_images_positions()
+
+
+    def get_images_positions(self):
+        images = [[0 for i in range(self.x_length)] for j in range(self.y_length)]
+        positions = [[0 for i in range(self.x_length)] for j in range(self.y_length)]
 
         for y in range(self.y_length):
             for x in range(self.x_length):
-                image = pygame.image.load(os.path.join(os.getcwd() , "res" , "tiles" , self.matrix[y][x]+".gif"))
-                position = [x * self.cell_width , y * self.cell_height]
-                window_surface.blit(image , position)
+                images[y][x] = pygame.image.load(os.path.join(os.getcwd() , "res" , "tiles" , self.matrix[y][x]+".gif"))
+                positions[y][x] = [x * self.cell_width , y * self.cell_height]
+
+        return images , positions
 
 
-        return window_surface
+    def update(self , window_surface):
+
+        for y in range(self.y_length):
+            for x in range(self.x_length):
+                window_surface.blit(self.images[y][x] , self.positions[y][x])
+
+    

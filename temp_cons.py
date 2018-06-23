@@ -86,7 +86,7 @@ data[14][16] = "wall-straight-vert"
 data[12][16] = "wall-straight-vert"
 
 for i in range(11 , 16):
-    data[11][i] = "ghost-door"
+    data[11][i] = "ghost-wall"
     data[15][i] = "wall-straight-horiz"
 
 data[17][10] = "wall-end-l"

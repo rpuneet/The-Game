@@ -13,6 +13,8 @@ import Pacman   # For holding informations about pacman.
 
 import Pallete  # For holding pallete information
 
+import os
+
 pygame.init()   # Initialising pygame
 
 # Constants.
@@ -27,7 +29,7 @@ pygame.display.set_caption(CAPTION)
 
 # Game Objects.
 clock = pygame.time.Clock()
-maze = Maze.Maze(".\\res\\levels\\1.json")
+maze = Maze.Maze(os.getcwd() + "\\res\\levels\\1.json")
 pacman = Pacman.Pacman(336 , 504)
 
 # Game Loop -
@@ -61,7 +63,7 @@ while True:
 
     # Update the screen.
     pygame.display.update()
-    
+
     clock.tick(FPS)     # Maintains the fps at a particular value.
 
 

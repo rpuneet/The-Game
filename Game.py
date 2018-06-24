@@ -13,7 +13,7 @@ import Pacman   # For holding informations about pacman.
 
 import Pallete  # For holding pallete information
 
-import os
+import os       # For os.path.join and os.getcwd 
 
 pygame.init()   # Initialising pygame
 
@@ -22,6 +22,7 @@ FPS = 144
 WINDOW_HEIGHT = 700
 WINDOW_WIDTH = 700
 CAPTION = "PACMAN"
+LEVEL = 1
 
 # Initialising the screen.
 window_surface = pygame.display.set_mode( ( WINDOW_WIDTH , WINDOW_HEIGHT) )
@@ -29,7 +30,7 @@ pygame.display.set_caption(CAPTION)
 
 # Game Objects.
 clock = pygame.time.Clock()
-maze = Maze.Maze(os.getcwd() + "\\res\\levels\\1.json")
+maze = Maze.Maze(os.path.join(os.getcwd() , "res" , "levels" , "{}.json".format(LEVEL)) )
 pacman = Pacman.Pacman(336 , 504)
 
 # Game Loop -

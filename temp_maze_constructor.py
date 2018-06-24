@@ -327,6 +327,40 @@ data[25][m-6] = "wall-corner-ll"
 
 for i in range(n):
     data[i].append("blank")
-    
+
+
+for i in range(2 , n-1):
+    for j in range(2 , m-1):
+        if(data[i][j] == "blank"):
+            data[i][j] = "pellet"
+
+data[11][2] = "blank"
+data[11][3] = "blank"
+data[11][4] = "blank"
+data[11][5] = "blank"
+
+
+data[15][2] = "blank"
+data[15][3] = "blank"
+data[15][4] = "blank"
+data[15][5] = "blank"
+
+data[11][m-2] = "blank"
+data[11][m-3] = "blank"
+data[11][m-4] = "blank"
+data[11][m-5] = "blank"
+
+
+data[15][m-2] = "blank"
+data[15][m-3] = "blank"
+data[15][m-4] = "blank"
+data[15][m-5] = "blank"
+
+for i in range(11 , 16):    
+    data[12][i] = "blank"
+    data[13][i] = "blank"
+    data[14][i] = "blank"
+
+
 with open(".\\res\\levels\\1.json" , "w") as output_file:
     json.dump(data , output_file)

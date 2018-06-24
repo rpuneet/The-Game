@@ -51,7 +51,11 @@ class Maze():
 
         for y in range(self.y_length):
             for x in range(self.x_length):
-                images[y][x] = pygame.image.load(os.path.join(os.getcwd() , "res" , "tiles" , self.matrix[y][x]+".gif"))
+                if "pellet" in self.matrix[y][x]:
+                    file_name = self.matrix[y][x]+".png"
+                else:
+                    file_name = self.matrix[y][x]+".gif"
+                images[y][x] = pygame.image.load(os.path.join(os.getcwd() , "res" , "tiles" , file_name)).convert()
                 positions[y][x] = [x * self.cell_width , y * self.cell_height]
 
         return images , positions
@@ -59,7 +63,7 @@ class Maze():
 
     def update(self , window_surface):
         ''' Update the screen with all the walls '''
-        
+
         for y in range(self.y_length):
             for x in range(self.x_length):
                 window_surface.blit(self.images[y][x] , self.positions[y][x])

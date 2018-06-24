@@ -71,9 +71,17 @@ class Pacman():
         position = [self.x , self.y]
         window_surface.blit(image , position)
 
+        # Check for Pellet at current psition.
+        if "pellet" in maze.matrix[round(self.y / 24)][round(self.x / 24)]:
+            self.eat_pellet(maze)
+
         self.move(maze)   # Change the x and y position of pacman according to the direction
 
+    def eat_pellet(self , maze):
+        maze.matrix[round(self.y / 24)][round(self.x / 24)] = "blank"
+        maze.images[round(self.y / 24)][round(self.x / 24)] =  pygame.image.load(os.path.join(os.getcwd() , "res" , "tiles" , "blank.gif")).convert()
 
+    
     def get_index_maze(self , pos_x , pos_y):
         '''
         Gets the index of the next cell in maze to check for collisions.
@@ -118,9 +126,11 @@ class Pacman():
 
         x_index , y_index = self.get_index_maze(new_x , new_y)
         
-        if "wall" not in maze.matrix[y_index][x_index]:
-            self.x = new_x
-            self.y = new_y
+        if "wall" in maze.matrix[y_index][x_index]:
+            return
+        
+        self.x = new_x
+        self.y = new_y
 
         self.frame_number += 1
 

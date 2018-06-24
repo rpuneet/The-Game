@@ -3,37 +3,42 @@ The driver file of the program.
 This is where the game is run and controlled.
 '''
 
-import time
+import pygame   # The library for graphics.
 
-import pygame
+import Maze     # Contains information about the Maze.
 
-import sys
+import Colors   # Contains different colors for UI
 
-import Maze
+import Pacman   # For holding informations about pacman.
 
-import Colors
+import Pallete  # For holding pallete information
 
-import Pacman
+pygame.init()   # Initialising pygame
 
-pygame.init()
-
+# Constants.
+FPS = 144
 WINDOW_HEIGHT = 700
 WINDOW_WIDTH = 700
 CAPTION = "PACMAN"
 
+# Initialising the screen.
 window_surface = pygame.display.set_mode( ( WINDOW_WIDTH , WINDOW_HEIGHT) )
 pygame.display.set_caption(CAPTION)
 
+# Game Objects.
 clock = pygame.time.Clock()
 maze = Maze.Maze(".\\res\\levels\\1.json")
 pacman = Pacman.Pacman(336 , 504)
 
+# Game Loop -
 while True:
     for event in pygame.event.get():
+        # Exit
         if event.type == pygame.QUIT:
             pygame.quit()
-            sys.exit(0)
+            exit(0)
         
+        # If a key is pressed, change direction of Pacman.
         if event.type == pygame.KEYDOWN or event.type == pygame.KEYUP:
             if event.key == pygame.K_LEFT:
                 pacman.change_direction('l' , maze)
@@ -50,10 +55,13 @@ while True:
 
     window_surface.fill(Colors.BLACK)
 
+    # Updating different objects in the game
     maze.update(window_surface)
     pacman.update(window_surface , maze)
 
+    # Update the screen.
     pygame.display.update()
-    clock.tick(144)
+    
+    clock.tick(FPS)     # Maintains the fps at a particular value.
 
 

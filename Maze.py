@@ -13,15 +13,17 @@ import os
 
 class Maze():
 
-    '''
-    Initialises the maze. 
-    Loads the maze information from matrix_data_path.
     
-    Parameters-
-        (string) matrix_data_path - Location of the json file to get matrix data.
-    '''
     def __init__(self , matrix_data_path):
+        '''
+        Initialises the maze. 
+        Loads the maze information from matrix_data_path.
         
+        Parameters-
+            (string) matrix_data_path - Location of the json file to get matrix data.
+        '''
+
+        # Check if given path exists.
         if not os.path.exists(matrix_data_path):
             raise Exception("File does not exist : {}".format(matrix_data_path))
 
@@ -38,6 +40,12 @@ class Maze():
 
 
     def get_images_positions(self):
+        '''
+        Loads all the tile images from local directory and also store all the (x,y) position for each cell.
+
+        Returns-
+            images (images of all the cells) , positions ((x,y) position of all the cells).
+        '''
         images = [[0 for i in range(self.x_length)] for j in range(self.y_length)]
         positions = [[0 for i in range(self.x_length)] for j in range(self.y_length)]
 
@@ -50,7 +58,8 @@ class Maze():
 
 
     def update(self , window_surface):
-
+        ''' Update the screen with all the walls '''
+        
         for y in range(self.y_length):
             for x in range(self.x_length):
                 window_surface.blit(self.images[y][x] , self.positions[y][x])

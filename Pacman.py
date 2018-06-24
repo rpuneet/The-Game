@@ -4,17 +4,24 @@ The class here contains information about pacman and its properties.
 
 import pygame
 
-import os
+import os    
 
-from math import *
+from math import ceil , floor
 
 class Pacman():
     
     def __init__(self , pos_x , pos_y):
+        '''
+        Initialises pacman object at (pos_x , pos_y) with default values.
+
+        Parameters-
+            (float) pos_x - Initial x position of pacman.
+            (float) pos_y - Initial y position of pacman.
+        '''
+
         self.x = pos_x
         self.y = pos_y
 
-        # initially it is not moving
         self.x_vel = 0
         self.y_vel = 1
         
@@ -27,18 +34,36 @@ class Pacman():
         
         self.images = self.get_images()
 
-
     def get_images(self):
+        '''
+        Loads all the pacman sprites from the local directory.
+        
+        Returns - 
+            images - Different images of pacman for each frame 
+                        and different orientations.
+        '''
+
         path = os.path.join(os.getcwd() , "res" , "sprite")
         images = {'l':[] , 'r':[] , 'd':[] , 'u':[]}
         
         for i in range(1 ,9):
             for dir in images:
-                images[dir].append(pygame.image.load(os.path.join(path , "pacman-{} {}.gif".format(dir , i))).convert())
+                images[dir].append(
+                    pygame.image.load(
+                        os.path.join(path , "pacman-{} {}.gif".format(dir , i))
+                                    ).convert()
+                                )
+
         return images
 
     def update(self , window_surface , maze):
-
+        '''
+        Updates the pacman sprite on the screen.
+        
+        Parameters-
+            window_surface - Screen where pacman has to be updated.
+            maze - Maze object for checking any collisions.
+        '''
         if self.frame_number >= (8 * self.frame_skip ):
             self.frame_number = 0
 
@@ -46,9 +71,19 @@ class Pacman():
         position = [self.x , self.y]
         window_surface.blit(image , position)
 
-        self.move(maze)
+        self.move(maze)   # Change the x and y position of pacman according to the direction
+
 
     def get_index_maze(self , pos_x , pos_y):
+        '''
+        Gets the index of the next cell in maze to check for collisions.
+        Parameters - 
+            pos_x - x co-ordinate.
+            pos_y - y co-ordinate.
+        Returns-
+            x_index ( index of column ) , y_index (index of row).
+        '''
+
         x_index , y_index = 0 , 0
         
         if self.x_vel == 1:
@@ -63,26 +98,42 @@ class Pacman():
 
         return x_index , y_index
 
-
     def move(self , maze):
+        '''
+        Updates the (x,y) position of pacman according to the direction
+        and also checks for collision with wall.
+        
+        Parameters-
+            maze - Maze object for checking wall positions.
+        '''
         new_x = self.x + self.x_vel
         new_y = self.y + self.y_vel
 
+        # Check for teleporter on left side.
         if new_x < 24:
             new_x = 24 * ( maze.x_length - 2)
-
+        # Check for teleporter on right side.
         if new_x > 24 * ( maze.x_length - 2):
-            new_x = 24
-        
+            new_x = 24        
+
         x_index , y_index = self.get_index_maze(new_x , new_y)
-        print(maze.x_length , new_x , x_index)
+        
         if "wall" not in maze.matrix[y_index][x_index]:
             self.x = new_x
             self.y = new_y
 
         self.frame_number += 1
 
+
     def change_direction(self , dir , maze):
+        '''
+        Change the direction pacman is moving in.
+        If the new direction contains wall then doesn't change the direction.
+        
+        Parameters -
+            dir - The new direction.
+            maze - Maze object for checking walls.
+        '''
         index_x = round(self.x / 24)
         index_y = round(self.y / 24)
         

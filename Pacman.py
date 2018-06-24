@@ -15,11 +15,11 @@ class Pacman():
         self.y = pos_y
 
         # initially it is not moving
-        self.x_vel = -1
-        self.y_vel = 0
+        self.x_vel = 0
+        self.y_vel = 1
         
         # l - left , u - up , r - right , d - down.
-        self.direction = 'l'
+        self.direction = 'd'
         # frame number goes from 1 to 8 to load the respective image on screen for animation
         self.frame_number = 0
         # frame skip is the number of frames to skip before drawing the next sprite.
@@ -69,13 +69,13 @@ class Pacman():
         new_y = self.y + self.y_vel
 
         if new_x < 24:
-            new_x = 24 * ( maze.x_length - 1)
+            new_x = 24 * ( maze.x_length - 2)
 
-        if new_x > 24 * ( maze.x_length - 1):
+        if new_x > 24 * ( maze.x_length - 2):
             new_x = 24
         
         x_index , y_index = self.get_index_maze(new_x , new_y)
-        #print(self.x , self.y , x_index , y_index)
+        print(maze.x_length , new_x , x_index)
         if "wall" not in maze.matrix[y_index][x_index]:
             self.x = new_x
             self.y = new_y

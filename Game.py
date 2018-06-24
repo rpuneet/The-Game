@@ -26,7 +26,7 @@ pygame.display.set_caption(CAPTION)
 
 clock = pygame.time.Clock()
 maze = Maze.Maze(".\\res\\levels\\1.json")
-pacman = Pacman.Pacman(5 * 24,17 * 24)
+pacman = Pacman.Pacman(336 , 504)
 
 while True:
     for event in pygame.event.get():

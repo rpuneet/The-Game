@@ -325,6 +325,8 @@ data[24][m-6] = "wall-straight-vert"
 data[25][m-5] = "wall-corner-lr"
 data[25][m-6] = "wall-corner-ll"
 
-
+for i in range(n):
+    data[i].append("blank")
+    
 with open(".\\res\\levels\\1.json" , "w") as output_file:
     json.dump(data , output_file)

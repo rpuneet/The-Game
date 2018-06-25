@@ -23,14 +23,14 @@ WINDOW_HEIGHT = 730
 WINDOW_WIDTH = 1000
 CAPTION = "PACMAN"
 LEVEL = 1
-GHOST_RELEASE_DELAY = 5000
+GHOST_RELEASE_DELAY = 2000
 CELL_WIDTH = 24
 CELL_HEIGHT = 24
 BLACK = (0 , 0 , 0)
 
 
 
-# Utility Finctions
+# Function Definitions - 
 
 def check_win(maze):
     ''' 
@@ -44,6 +44,8 @@ def check_win(maze):
                 return False
     
     return True
+
+
 
 def release_ghost_in_maze(ghosts_in_maze , ghosts_not_in_maze , game_start_time):
     '''
@@ -59,15 +61,37 @@ def release_ghost_in_maze(ghosts_in_maze , ghosts_not_in_maze , game_start_time)
         ghost_to_release.in_maze = True
         ghosts_in_maze.append(ghost_to_release)
 
+
+
 def game_won():
+    ''' Function to exit the game if game is one'''
     pygame.time.delay(2000)
+    exit(0)
+
+
 
 def game_over(game_over_image , game_over_position):
+    ''' Function to exit the game after game is over.
+    Paramaeters-
+        game_over_image - pygame.image object of game_over image.
+        game_over_position - position to draw game_over image at. [x , y]
+    '''
     window_surface.blit(game_over_image , game_over_position)
     pygame.display.update()
     pygame.time.delay(2000)
+    exit(0)
+
+
 
 def check_ghost_collision(pacman , ghost):
+    '''
+    Checks collision of pacman and a single ghost.
+    Parameters-
+        pacman - Pacman object.
+        ghost - Ghost object.
+    Returns-
+        bool - True if there is a collision , False otherwise.
+    '''
     pacman_x_index = round(pacman.x / CELL_WIDTH)
     pacman_y_index = round(pacman.y / CELL_HEIGHT)
 
@@ -77,13 +101,32 @@ def check_ghost_collision(pacman , ghost):
     if(ghost_x_index == pacman_x_index and ghost_y_index == pacman_y_index):
         return True
 
+
+
 def check_ghosts_collision(pacman , ghosts_in_maze):
+    '''
+    Checks collision of all the ghosts with pacman in the given array.
+    Parameter-
+        pacman - Pacman object.
+        ghosts_in_maze - list of Ghost objects which are in the maze.
+    Returns-
+        bool - True if any ghost collides with pacman , False otherwise.
+    '''
+
     for ghost in ghosts_in_maze:
         if check_ghost_collision(pacman , ghost):
             return True
     return False
 
+
+
 def reinitialise(new_life_count):
+    '''
+    Re-initialises the game with the given life count.
+    Parameters-
+        life_count - the new life_count.
+    '''
+
     global pacman , ghosts_in_maze , ghosts_not_in_maze , game_running , life_count , game_start_time
 
     pacman = Pacman.Pacman(336 , 504)
@@ -97,6 +140,10 @@ def reinitialise(new_life_count):
     game_running = False
     life_count = new_life_count
     game_start_time = float('inf')
+
+
+
+
 
 
 # Initialising the screen.
@@ -113,10 +160,16 @@ ghosts_not_in_maze = [ Ghost.Ghost(
                                                                 "inky",
                                                                 "pinky",
                                                                 "blinky"]]
+# Setting AI level of the ghosts.
+ghosts_not_in_maze[0].AI_level = 50
+ghosts_not_in_maze[1].AI_level = 15
+ghosts_not_in_maze[2].AI_level = 5
+ghosts_not_in_maze[3].AI_level = 0
+
 ghosts_in_maze = []
 
 
-# Logos and other images and game variables.
+# Logos, other images and game variables.
 game_running = False
 game_start_time = float('inf')
 life_count = 3
@@ -135,6 +188,8 @@ game_over_position = [CELL_WIDTH * (maze.x_length + 3) , CELL_HEIGHT * 4]
 
 life_image = pygame.image.load(os.path.join(os.getcwd() , 'res', 'text', 'life.gif')).convert()
 life_position = [CELL_WIDTH + 5 , CELL_HEIGHT * maze.y_length]
+
+
 
 # Game Loop -
 while True:
@@ -180,9 +235,9 @@ while True:
     maze.update(window_surface)
     pacman.update(window_surface , maze)
     for ghost in ghosts_not_in_maze:
-        ghost.update(window_surface , maze)
+        ghost.update(window_surface , maze , pacman)
     for ghost in ghosts_in_maze:
-        ghost.update(window_surface , maze)
+        ghost.update(window_surface , maze , pacman)
 
 
     # Update the screen.
@@ -192,14 +247,13 @@ while True:
     if check_ghosts_collision(pacman , ghosts_in_maze):
         if life_count == 0:
             game_over(game_over_image , game_over_position)
-            exit(0)
+
         reinitialise(life_count - 1)
 
 
     # Check if all the pellets are gone.
     if check_win(maze):
         game_won()
-        exit(0)
 
     # Release 1 ghost in the maze after every 5 second. if there is a ghost to release.
     if len(ghosts_not_in_maze) > 0:

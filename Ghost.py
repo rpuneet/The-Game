@@ -6,9 +6,11 @@ import pygame
 
 import os
 
-import random
+import GhostAI
 
 from math import ceil , floor
+
+
 
 class Ghost:
 
@@ -33,10 +35,12 @@ class Ghost:
         # Bool value to check if ghost is in maze or not.
         self.in_maze = False
 
+        self.AI_level = 0
+
         self.image = pygame.image.load(image_path)
     
 
-    def update(self , window_surface , maze):
+    def update(self , window_surface , maze , pacman):
         '''
         Updates the ghodt sprite on the screen.
         
@@ -47,7 +51,7 @@ class Ghost:
 
         window_surface.blit(self.image , [self.x , self.y])
 
-        self.move(maze)   # Change the x and y position of ghost according to the direction
+        self.move(maze , pacman)   # Change the x and y position of ghost according to the direction
 
     
     def get_index_maze(self , pos_x , pos_y):
@@ -76,25 +80,42 @@ class Ghost:
         return x_index , y_index
 
     def check_wall_collision(self , maze , x_index , y_index):
-        # Check for going Out of Bounds in the teleporter row.
-        teleporter_imag_wall = False
-        if self.y == (13 * 24 ):
-            teleporter_imag_wall = self.x < (6 * 24) or self.x > ( 24 * (maze.x_length - 6) )
+        ''' 
+        Checks for collision with any wall in the direction ghost is moving.
+        The ghost box door is considered a one way wall.
+
+        Parameters-
+            maze - Maze object for checking cells.
+            x_index - column index in maze.matrix of next cell.
+            y_index - row index in maze.matrix of next cell.
+        Returns-
+            bool - True if the next cell contains a wall.
+        '''
 
         # If ghost is not in maze.
         if self.in_maze == False:
-            return "wall" in maze.matrix[y_index][x_index] or teleporter_imag_wall
+            return "wall" in maze.matrix[y_index][x_index]
         
         # Checking if ghost is trying to go out of the maze.
         if self.direction == 'u':
             return "wall" in maze.matrix[y_index][x_index] and "ghost" not in maze.matrix[y_index][x_index]
         
         # If ghost is out of the maze the ghost wall is considered a wall.
-        return "wall" in maze.matrix[y_index][x_index] or teleporter_imag_wall
+        return "wall" in maze.matrix[y_index][x_index]
 
+    def in_ghost_box(self , maze):
+        ''' Returns True if ghost is inside the ghost box.'''
+        return (self.x <= (16 * maze.cell_width) and 
+                self.x >= (10 * maze.cell_width) and
+                self.y <= (15 * maze.cell_height) and 
+                self.y >= (11 * maze.cell_height) 
+                )
 
+    def at_cell(self , maze):
+        ''' Returns True if ghost is perfectly present at a cell'''
+        return self.x % maze.cell_width == 0 and self.y % maze.cell_height == 0
 
-    def move(self , maze):
+    def move(self , maze , pacman):
         '''
         Updates the (x,y) position of ghost according to the direction
         and also checks for collision with wall.
@@ -106,14 +127,43 @@ class Ghost:
         new_x = self.x + self.x_vel
         new_y = self.y + self.y_vel
 
+
+        # Check for teleporter on left side.
+        if new_x < 24:
+            new_x = 24 * ( maze.x_length - 2)
+        # Check for teleporter on right side.
+        if new_x > 24 * ( maze.x_length - 2):
+            new_x = 24   
+
         x_index , y_index = self.get_index_maze(new_x , new_y)
-        
+
+        # Changing direction after collision with a wall.
         if self.check_wall_collision(maze , x_index , y_index):
-            directions = set(['l' , 'r' , 'u', 'd'])
-            directions.remove(self.direction)
-            self.change_direction(random.sample(directions , 1)[0] , maze)
-            return
+            if self.in_maze == False or self.in_ghost_box(maze):
+                new_direction = GhostAI.get_direction(pacman , maze , self , 0)
+            else:
+                new_direction = GhostAI.get_direction(pacman , maze , self , self.AI_level)
+            if new_direction != 'none':
+                self.change_direction(new_direction , maze)
+                return
         
+        # Changing direction on a 3-way or 4-way.
+        if not self.in_ghost_box(maze) and self.at_cell(maze):
+            new_direction = GhostAI.get_direction(pacman , maze , self , self.AI_level)
+            dirs = [set(['l' , 'r']) , set(['u' , 'd'])]
+
+            if new_direction != 'none' and new_direction != self.direction and set([new_direction , self.direction]) not in dirs:
+                old_direction = self.direction
+                self.change_direction(new_direction , maze)
+                temp_new_x = self.x + self.x_vel
+                temp_new_y = self.y + self.y_vel
+                temp_x_index , temp_y_index = self.get_index_maze(new_x , new_y)
+                if not self.check_wall_collision(maze , x_index , y_index):
+                    new_x = temp_new_x
+                    new_y = temp_new_y
+                else:
+                    self.change_direction(old_direction , maze)
+
         self.x = new_x
         self.y = new_y
 

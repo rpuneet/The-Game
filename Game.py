@@ -62,18 +62,16 @@ def release_ghost_in_maze(ghosts_in_maze , ghosts_not_in_maze , game_start_time)
 
 
 def game_won():
-    ''' Function to exit the game if game is one'''
+    ''' Function to exit the game if game is won'''
+    window_surface.blit(you_win_image , you_win_position)
+    pygame.display.update()
     pygame.time.delay(2000)
     exit(0)
 
 
 
 def game_over(game_over_image , game_over_position):
-    ''' Function to exit the game after game is over.
-    Paramaeters-
-        game_over_image - pygame.image object of game_over image.
-        game_over_position - position to draw game_over image at. [x , y]
-    '''
+    ''' Function to exit the game after game is over.'''
     window_surface.blit(game_over_image , game_over_position)
     pygame.display.update()
     pygame.time.delay(2000)
@@ -183,6 +181,9 @@ press_enter_position = [CELL_WIDTH * (maze.x_length + 3) , CELL_HEIGHT * 6]
 
 game_over_image = pygame.image.load(os.path.join(os.getcwd() , 'res', 'text', 'gameover1.gif')).convert()
 game_over_position = [CELL_WIDTH * (maze.x_length + 3) , CELL_HEIGHT * 4]
+
+you_win_image = pygame.image.load(os.path.join(os.getcwd() , 'res', 'text', 'youwin1.gif')).convert()
+you_win_position = [CELL_WIDTH * (maze.x_length + 3) , CELL_HEIGHT * 4]
 
 life_image = pygame.image.load(os.path.join(os.getcwd() , 'res', 'text', 'life.gif')).convert()
 life_position = [CELL_WIDTH + 5 , CELL_HEIGHT * maze.y_length]

@@ -19,13 +19,16 @@ pygame.init()   # Initialising pygame
 
 # Constants.
 FPS = 144
-WINDOW_HEIGHT = 700
-WINDOW_WIDTH = 900
+WINDOW_HEIGHT = 730
+WINDOW_WIDTH = 1000
 CAPTION = "PACMAN"
 LEVEL = 1
 GHOST_RELEASE_DELAY = 5000
 CELL_WIDTH = 24
 CELL_HEIGHT = 24
+BLACK = (0 , 0 , 0)
+
+
 
 # Utility Finctions
 
@@ -42,7 +45,7 @@ def check_win(maze):
     
     return True
 
-def release_ghost_in_maze(ghosts_in_maze , ghosts_not_in_maze):
+def release_ghost_in_maze(ghosts_in_maze , ghosts_not_in_maze , game_start_time):
     '''
     Releases ghosts in the maze after every 5 seconds.
     It transfers ghosts not in maze to ghost in maze and changes its in_maze value to True.
@@ -51,7 +54,7 @@ def release_ghost_in_maze(ghosts_in_maze , ghosts_not_in_maze):
         ghost_in_maze - list of ghosts that are in maze.
         ghost_not_in_maze - list of ghosts that are in ghost box.
     '''
-    if pygame.time.get_ticks() >= (len(ghosts_in_maze) + 1) * GHOST_RELEASE_DELAY:
+    if ( pygame.time.get_ticks() - game_start_time) >= (len(ghosts_in_maze) + 1) * GHOST_RELEASE_DELAY:
         ghost_to_release = ghosts_not_in_maze.pop()
         ghost_to_release.in_maze = True
         ghosts_in_maze.append(ghost_to_release)
@@ -59,7 +62,9 @@ def release_ghost_in_maze(ghosts_in_maze , ghosts_not_in_maze):
 def game_won():
     pygame.time.delay(2000)
 
-def game_over():
+def game_over(game_over_image , game_over_position):
+    window_surface.blit(game_over_image , game_over_position)
+    pygame.display.update()
     pygame.time.delay(2000)
 
 def check_ghost_collision(pacman , ghost):
@@ -77,8 +82,21 @@ def check_ghosts_collision(pacman , ghosts_in_maze):
         if check_ghost_collision(pacman , ghost):
             return True
     return False
-    
-    
+
+def reinitialise(new_life_count):
+    global pacman , ghosts_in_maze , ghosts_not_in_maze , game_running , life_count , game_start_time
+
+    pacman = Pacman.Pacman(336 , 504)
+    ghosts_not_in_maze = [ Ghost.Ghost(
+                        os.path.join(os.getcwd() , 'res' , 'tiles' , 'ghost-{}.gif'.format(ghost_name)),
+                         13 * 24 , 13 * 24) for ghost_name in [ "sue",
+                                                                "inky",
+                                                                "pinky",
+                                                                "blinky"]]
+    ghosts_in_maze = []
+    game_running = False
+    life_count = new_life_count
+    game_start_time = float('inf')
 
 
 # Initialising the screen.
@@ -97,30 +115,66 @@ ghosts_not_in_maze = [ Ghost.Ghost(
                                                                 "blinky"]]
 ghosts_in_maze = []
 
+
+# Logos and other images and game variables.
+game_running = False
+game_start_time = float('inf')
+life_count = 3
+
+pacman_logo_image = pygame.image.load(os.path.join(os.getcwd() , 'res', 'text', 'logo.gif')).convert()
+pacman_logo_position = [CELL_WIDTH * maze.x_length , CELL_HEIGHT]
+
+ready_image = pygame.image.load(os.path.join(os.getcwd() , 'res', 'text', 'ready.gif')).convert()
+ready_position = [CELL_WIDTH * (maze.x_length + 3) , CELL_HEIGHT * 4]
+
+press_enter_image = pygame.image.load(os.path.join(os.getcwd() , 'res', 'text', 'pressenter.gif')).convert()
+press_enter_position = [CELL_WIDTH * (maze.x_length + 3) , CELL_HEIGHT * 6]
+
+game_over_image = pygame.image.load(os.path.join(os.getcwd() , 'res', 'text', 'gameover1.gif')).convert()
+game_over_position = [CELL_WIDTH * (maze.x_length + 3) , CELL_HEIGHT * 4]
+
+life_image = pygame.image.load(os.path.join(os.getcwd() , 'res', 'text', 'life.gif')).convert()
+life_position = [CELL_WIDTH + 5 , CELL_HEIGHT * maze.y_length]
+
 # Game Loop -
 while True:
+
     for event in pygame.event.get():
         # Exit
         if event.type == pygame.QUIT:
             pygame.quit()
             exit(0)
-        
+
+        # Enter is not a inbuilt key type. So for checking enter.
+        keys_pressed = pygame.key.get_pressed()
+
         # If a key is pressed, change direction of Pacman.
         if event.type == pygame.KEYDOWN or event.type == pygame.KEYUP:
-            if event.key == pygame.K_LEFT:
+            if game_running and event.key == pygame.K_LEFT:
                 pacman.change_direction('l' , maze)
             
-            if event.key == pygame.K_RIGHT:
+            if game_running and event.key == pygame.K_RIGHT:
                 pacman.change_direction('r' , maze)
             
-            if event.key == pygame.K_UP:
+            if game_running and event.key == pygame.K_UP:
                 pacman.change_direction('u' , maze)
             
-            if event.key == pygame.K_DOWN:
+            if game_running and event.key == pygame.K_DOWN:
                 pacman.change_direction('d' , maze)
 
+            if not game_running and ( event.key == pygame.K_KP_ENTER or keys_pressed[13] ):
+                game_running = True
+                game_start_time = pygame.time.get_ticks()
 
-    window_surface.fill(Colors.BLACK)
+    # Updating Logos and background.
+    window_surface.fill(BLACK)
+    window_surface.blit(pacman_logo_image , pacman_logo_position)
+    if not game_running:
+        window_surface.blit(ready_image,ready_position)
+        window_surface.blit(press_enter_image,press_enter_position)
+    for i in range(life_count):
+        window_surface.blit(life_image , [ life_position[0] + 20 * i , life_position[1] ])
+
 
     # Updating different objects in the game
     maze.update(window_surface)
@@ -136,8 +190,11 @@ while True:
 
     # Check for collision with ghost.
     if check_ghosts_collision(pacman , ghosts_in_maze):
-        game_over()
-        exit(0)
+        if life_count == 0:
+            game_over(game_over_image , game_over_position)
+            exit(0)
+        reinitialise(life_count - 1)
+
 
     # Check if all the pellets are gone.
     if check_win(maze):
@@ -146,7 +203,7 @@ while True:
 
     # Release 1 ghost in the maze after every 5 second. if there is a ghost to release.
     if len(ghosts_not_in_maze) > 0:
-        release_ghost_in_maze(ghosts_in_maze , ghosts_not_in_maze)
+        release_ghost_in_maze(ghosts_in_maze , ghosts_not_in_maze , game_start_time)
 
 
     clock.tick(FPS)     # Maintains the fps at a particular value.

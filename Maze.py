@@ -3,8 +3,6 @@ This class is used to store data about the maze.
 The matrix contains strings which refer to the image in the tile folder.
 '''
 
-
-
 import pygame
 
 import json

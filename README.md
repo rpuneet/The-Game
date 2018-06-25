@@ -17,7 +17,7 @@ A playable game of Pacman.
 
 Open the Game.py file. Either directly or using command line -
 
->\ py Game.py
+             >\ py Game.py
 
 Press Enter to start the game.
 

@@ -7,8 +7,6 @@ import pygame   # The library for graphics.
 
 import Maze     # Contains information about the Maze.
 
-import Colors   # Contains different colors for UI
-
 import Pacman   # For holding informations about pacman.
 
 import Ghost    # For holding information about each ghost.

@@ -1,3 +1,5 @@
+''' This file is used to create the maze i.e. 1.json file for loading a level'''
+
 import json
 
 n = 28

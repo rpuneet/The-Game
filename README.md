@@ -19,5 +19,7 @@ Open the Game.py file. Either directly or using command line -
 
 >\ py Game.py
 
+Press Enter to start the game.
+
 # Output
 A game of pacman.

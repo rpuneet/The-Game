@@ -11,6 +11,8 @@ import Colors   # Contains different colors for UI
 
 import Pacman   # For holding informations about pacman.
 
+import Ghost    # For holding information about each ghost.
+
 import os       # For os.path.join and os.getcwd 
 
 pygame.init()   # Initialising pygame
@@ -21,6 +23,7 @@ WINDOW_HEIGHT = 700
 WINDOW_WIDTH = 900
 CAPTION = "PACMAN"
 LEVEL = 1
+GHOST_RELEASE_DELAY = 5000
 
 
 # Utility Finctions
@@ -48,6 +51,13 @@ pygame.display.set_caption(CAPTION)
 clock = pygame.time.Clock()
 maze = Maze.Maze( os.path.join(os.getcwd() , "res" , "levels" , "{}.json".format(LEVEL)))
 pacman = Pacman.Pacman(336 , 504)
+ghosts_not_in_maze = [ Ghost.Ghost(
+                        os.path.join(os.getcwd() , 'res' , 'tiles' , 'ghost-{}.gif'.format(ghost_name)),
+                         13 * 24 , 13 * 24) for ghost_name in [ "sue",
+                                                                "inky",
+                                                                "pinky",
+                                                                "blinky"]]
+ghosts_in_maze = []
 
 # Game Loop -
 while True:
@@ -77,6 +87,11 @@ while True:
     # Updating different objects in the game
     maze.update(window_surface)
     pacman.update(window_surface , maze)
+    for ghost in ghosts_not_in_maze:
+        ghost.update(window_surface , maze)
+    for ghost in ghosts_in_maze:
+        ghost.update(window_surface , maze)
+
 
     # Update the screen.
     pygame.display.update()
@@ -85,5 +100,12 @@ while True:
     if check_win(maze):
         pygame.time.delay(100)
         exit(0)
+
+    # Release 1 ghost in the maze after every 5 second.
+    if pygame.time.get_ticks() >= (len(ghosts_in_maze) + 1) * GHOST_RELEASE_DELAY and len(ghosts_not_in_maze) > 0:
+        ghost_to_release = ghosts_not_in_maze.pop()
+        ghost_to_release.in_maze = True
+        ghosts_in_maze.append(ghost_to_release)
+
 
     clock.tick(FPS)     # Maintains the fps at a particular value.

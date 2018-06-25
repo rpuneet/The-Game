@@ -23,10 +23,10 @@ Press Enter to start the game.
 
 Screenshots -
 
-![Pacman-Screenshot-1](https://github.com/rpuneet/The-Game/tree/master/res/screenshots/1.png)
+![Pacman-Screenshot-1](https://imgur.com/aLOPlZq)
 
 
-![Pacman-Screenshot-2](https://github.com/rpuneet/The-Game/tree/master/screenshots/2.png)
+![Pacman-Screenshot-2](https://imgur.com/YFAfm43)
 
 
 # Output

@@ -65,16 +65,16 @@ def game_won():
     ''' Function to exit the game if game is won'''
     window_surface.blit(you_win_image , you_win_position)
     pygame.display.update()
-    pygame.time.delay(2000)
+    pygame.time.delay(5000)
     exit(0)
 
 
 
 def game_over(game_over_image , game_over_position):
     ''' Function to exit the game after game is over.'''
-    window_surface.blit(game_over_image , game_over_position)
+    window_surface.blit(game_over_image , game_over_position)   
     pygame.display.update()
-    pygame.time.delay(2000)
+    pygame.time.delay(5000)
     exit(0)
 
 

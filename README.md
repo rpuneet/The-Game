@@ -21,6 +21,12 @@ Open the Game.py file. Either directly or using command line -
 
 Press Enter to start the game.
 
+# Screenshots -
+
+![Screenshot 1](./screenshots/1.png)
+
+![Screenshot 2](./screenshots/2.png)
+
 
 # Output
 A game of pacman.

@@ -26,7 +26,3 @@ Press Enter to start the game.
 ![Screenshot 1](./screenshots/1.png)
 
 ![Screenshot 2](./screenshots/2.png)
-
-
-# Output
-A game of pacman.
